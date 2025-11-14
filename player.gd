@@ -4,23 +4,35 @@ extends Node2D
 @onready var label : Label = $Label
 @onready var label2 : Label = $Label2
 
+func _ready() -> void:
+	atkComponent.Combo_Finished.connect(_on_attack_finished)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_down"):
-		atkComponent.Combo_Finished.connect(_on_attack_finished, CONNECT_ONE_SHOT)
 		atkComponent.combo_handler()
+	
+	if event.is_action_released("ui_down"):
+		atkComponent.release_attack()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	
 	if atkComponent.attacking == true:
 		label2.text = "true"
-	
-	match atkComponent.current_combo_step:
-		1:
-			label.text = "Combo 1"
-		2: 
-			label.text = "Combo 2"
-		_:
-			label.text = "Idle"
+		match atkComponent.current_combo_step:
+			1:
+				label.text = "Combo 1"
+			2: 
+				label.text = "Combo 2"
+			0:
+				label.text = "Idle"
+	elif atkComponent.is_holding:
+		if atkComponent.charge_ready:
+			label.text = "Charge PRONTO!"
+		else:
+			label.text = "Charging..."
+	else:
+		label.text = "Idle"
+		label2.text = "false"
 
 func _on_attack_finished():
 	label2.text = "false"

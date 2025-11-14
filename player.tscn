@@ -23,7 +23,8 @@ metadata/_custom_type_script = "uid://crl0axr5v25aj"
 [node name="ChargeTimer" type="Timer" parent="AttackComponent"]
 
 [node name="HoldTimer" type="Timer" parent="AttackComponent"]
-wait_time = 0.2
+wait_time = 3.0
+one_shot = true
 
 [node name="Label" type="Label" parent="."]
 offset_left = 119.0
