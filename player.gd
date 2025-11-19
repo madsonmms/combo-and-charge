@@ -12,19 +12,18 @@ func _unhandled_input(event: InputEvent) -> void:
 		atkComponent.attack_handler()
 	
 	if event.is_action_released("ui_down"):
-		atkComponent.release_attack()
+		atkComponent.attack_handler()
 
 func _process(_delta: float) -> void:
 	
 	if atkComponent.attacking == true:
 		label2.text = "true"
-		match atkComponent.current_combo_step:
-			1:
-				label.text = "Combo 1"
-			2: 
-				label.text = "Combo 2"
-			0:
-				label.text = "Idle"
+		
+		if atkComponent.current_combo_step != 0:
+			label.text = "Combo " + str(atkComponent.current_combo_step)
+		else:
+			label.text = "Idle"
+		
 	elif atkComponent.is_holding:
 		if atkComponent.charge_ready:
 			label.text = "Charge PRONTO!"

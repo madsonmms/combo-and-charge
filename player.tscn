@@ -16,6 +16,10 @@ script = ExtResource("2_onrkg")
 combo_timer = NodePath("ComboTimer")
 charge_timer = NodePath("ChargeTimer")
 hold_timer = NodePath("HoldTimer")
+has_combo = true
+circular_combo = true
+combo_steps = 3
+has_charge = true
 metadata/_custom_type_script = "uid://crl0axr5v25aj"
 
 [node name="ComboTimer" type="Timer" parent="AttackComponent"]
