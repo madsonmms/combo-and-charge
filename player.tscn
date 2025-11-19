@@ -33,10 +33,10 @@ offset_right = 159.0
 offset_bottom = 80.0
 
 [node name="Label2" type="Label" parent="."]
-offset_left = 119.0
-offset_top = 12.0
-offset_right = 159.0
-offset_bottom = 35.0
+offset_left = 177.0
+offset_top = 17.0
+offset_right = 217.0
+offset_bottom = 40.0
 text = "false"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
@@ -44,3 +44,10 @@ offset_left = 83.0
 offset_top = 223.0
 offset_right = 198.0
 offset_bottom = 250.0
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 84.0
+offset_top = 17.0
+offset_right = 170.0
+offset_bottom = 40.0
+text = "attacking ="

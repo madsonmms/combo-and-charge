@@ -7,7 +7,6 @@ signal Combo_Finished
 @export var combo_timer : Timer
 @export var charge_timer : Timer
 @export var hold_timer: Timer
-@export var hold_threshold : float = 3
 
 var current_combo_step : int = 0
 var attacking : bool = false
@@ -22,29 +21,41 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	pass
 
-func combo_handler() -> void:
-	#if current_combo_step == 0:
+# Chamado sempre que o ataque é realizado
+func attack_handler() -> void:
 	is_holding = true
-	hold_timer.start(hold_threshold)
-	#elif hold_timer.is_stopped():
-		#start_charge()
-		
+	hold_timer.start()
+
 func release_attack() -> void:
+	
+	var hold_time = hold_timer.wait_time
+	var time_elapsed = hold_timer.wait_time - hold_timer.time_left
+	
 	if is_holding:
-		if hold_timer.time_left > 0:
+		if time_elapsed > 0 and time_elapsed < 1:
 			is_holding = false
 			if current_combo_step == 0:
 				start_attack()
 			else:
 				try_next_combo()
-		else:
+		elif time_elapsed == hold_time:
 			start_charge_attack()
+		else:
+			cancel_charge_attack()
+			pass
 			
 			
 func start_charge_attack() -> void:
 	hold_timer.stop()
 	print_debug("Charge release!")
+	is_holding = false
+	charge_ready = false
 
+func cancel_charge_attack() -> void:
+	hold_timer.stop()
+	is_holding = false
+	charge_ready = false
+	print_debug("Charge canceled")
 
 #Inicializa o ataque e o timer
 func start_attack() -> void:
@@ -56,6 +67,7 @@ func start_attack() -> void:
 	combo_timer.start()
 
 func try_next_combo() -> bool:
+	hold_timer.stop()
 	
 	#Checa se está atacando e se ainda tem timer
 	if attacking and not combo_timer.is_stopped(): 
@@ -72,12 +84,13 @@ func try_next_combo() -> bool:
 		return true
 	return false
 
+# Executado para resetar o combo
 func _on_combo_timeout() -> void:
 	attacking = false
 	current_combo_step = 0
 	Combo_Finished.emit()
 
-	
+# Quando o charge está pronto para o release
 func _on_hold_timeout():
 	if is_holding:
 		charge_ready = true
