@@ -7,6 +7,7 @@ signal Combo_Finished
 @export var combo_timer : Timer
 @export var charge_timer : Timer
 @export var hold_timer: Timer
+@export var progress_bar : ProgressBar
 @export var has_combo : bool
 @export var circular_combo: bool
 @export var combo_steps : int # Se circular_combo = true, esse valor será = 2
@@ -68,7 +69,6 @@ func normal_attack() -> void:
 
 func start_charge_attack() -> void:
 	hold_timer.stop()
-	print_debug("Charge release!")
 	is_holding = false
 	charge_ready = false
 
@@ -76,7 +76,6 @@ func cancel_charge_attack() -> void:
 	hold_timer.stop()
 	is_holding = false
 	charge_ready = false
-	print_debug("Charge canceled")
 
 #Inicializa o ataque e o timer
 func start_attack() -> void:
@@ -136,4 +135,3 @@ func _on_combo_timeout() -> void:
 func _on_hold_timeout():
 	if is_holding:
 		charge_ready = true
-		print_debug("Charge ready!")

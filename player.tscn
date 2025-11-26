@@ -8,14 +8,15 @@
 script = ExtResource("1_i3pqv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(142, 150)
+position = Vector2(292, 298)
 texture = ExtResource("1_4flbx")
 
-[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("combo_timer", "charge_timer", "hold_timer")]
+[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("combo_timer", "charge_timer", "hold_timer", "progress_bar")]
 script = ExtResource("2_onrkg")
 combo_timer = NodePath("ComboTimer")
 charge_timer = NodePath("ChargeTimer")
 hold_timer = NodePath("HoldTimer")
+progress_bar = NodePath("../ProgressBar")
 has_combo = true
 circular_combo = true
 combo_steps = 3
@@ -30,28 +31,64 @@ metadata/_custom_type_script = "uid://crl0axr5v25aj"
 wait_time = 3.0
 one_shot = true
 
-[node name="Label" type="Label" parent="."]
-offset_left = 119.0
-offset_top = 57.0
-offset_right = 159.0
-offset_bottom = 80.0
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 168.0
+offset_right = 250.0
+offset_bottom = 191.0
+text = "State = "
 
-[node name="Label2" type="Label" parent="."]
-offset_left = 177.0
-offset_top = 17.0
-offset_right = 217.0
-offset_bottom = 40.0
+[node name="Status" type="Label" parent="."]
+offset_left = 336.0
+offset_top = 168.0
+offset_right = 376.0
+offset_bottom = 191.0
+text = "Idle"
+
+[node name="HoldingLabel" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 88.0
+offset_right = 287.0
+offset_bottom = 111.0
+text = "Is Holding = "
+
+[node name="Holding" type="Label" parent="."]
+offset_left = 336.0
+offset_top = 88.0
+offset_right = 376.0
+offset_bottom = 111.0
+text = "false"
+
+[node name="AttackingLabel" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 128.0
+offset_right = 279.0
+offset_bottom = 151.0
+text = "Attacking ="
+
+[node name="Attacking" type="Label" parent="."]
+offset_left = 336.0
+offset_top = 128.0
+offset_right = 376.0
+offset_bottom = 151.0
+text = "false"
+
+[node name="ChargeReadyLabel" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 48.0
+offset_right = 316.0
+offset_bottom = 71.0
+text = "Charge Ready = "
+
+[node name="ChargeReady" type="Label" parent="."]
+offset_left = 336.0
+offset_top = 48.0
+offset_right = 376.0
+offset_bottom = 71.0
 text = "false"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = 83.0
-offset_top = 223.0
-offset_right = 198.0
-offset_bottom = 250.0
-
-[node name="Label3" type="Label" parent="."]
-offset_left = 84.0
-offset_top = 17.0
-offset_right = 170.0
-offset_bottom = 40.0
-text = "attacking ="
+offset_left = 233.0
+offset_top = 371.0
+offset_right = 348.0
+offset_bottom = 398.0
