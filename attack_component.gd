@@ -7,7 +7,6 @@ signal Combo_Finished
 @export var combo_timer : Timer
 @export var charge_timer : Timer
 @export var hold_timer: Timer
-@export var progress_bar : ProgressBar
 @export var has_combo : bool
 @export var circular_combo: bool
 @export var combo_steps : int # Se circular_combo = true, esse valor será = 2

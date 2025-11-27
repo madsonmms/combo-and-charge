@@ -11,12 +11,11 @@ script = ExtResource("1_i3pqv")
 position = Vector2(292, 298)
 texture = ExtResource("1_4flbx")
 
-[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("combo_timer", "charge_timer", "hold_timer", "progress_bar")]
+[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("combo_timer", "charge_timer", "hold_timer")]
 script = ExtResource("2_onrkg")
 combo_timer = NodePath("ComboTimer")
 charge_timer = NodePath("ChargeTimer")
 hold_timer = NodePath("HoldTimer")
-progress_bar = NodePath("../ProgressBar")
 has_combo = true
 circular_combo = true
 combo_steps = 3
@@ -31,19 +30,19 @@ metadata/_custom_type_script = "uid://crl0axr5v25aj"
 wait_time = 3.0
 one_shot = true
 
-[node name="StatusLabel" type="Label" parent="."]
-offset_left = 192.0
-offset_top = 168.0
-offset_right = 250.0
-offset_bottom = 191.0
-text = "State = "
-
 [node name="Status" type="Label" parent="."]
 offset_left = 336.0
 offset_top = 168.0
 offset_right = 376.0
 offset_bottom = 191.0
 text = "Idle"
+
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 168.0
+offset_right = 250.0
+offset_bottom = 191.0
+text = "State = "
 
 [node name="HoldingLabel" type="Label" parent="."]
 offset_left = 192.0
@@ -59,19 +58,19 @@ offset_right = 376.0
 offset_bottom = 111.0
 text = "false"
 
-[node name="AttackingLabel" type="Label" parent="."]
-offset_left = 192.0
-offset_top = 128.0
-offset_right = 279.0
-offset_bottom = 151.0
-text = "Attacking ="
-
 [node name="Attacking" type="Label" parent="."]
 offset_left = 336.0
 offset_top = 128.0
 offset_right = 376.0
 offset_bottom = 151.0
 text = "false"
+
+[node name="AttackingLabel" type="Label" parent="."]
+offset_left = 192.0
+offset_top = 128.0
+offset_right = 279.0
+offset_bottom = 151.0
+text = "Attacking ="
 
 [node name="ChargeReadyLabel" type="Label" parent="."]
 offset_left = 192.0

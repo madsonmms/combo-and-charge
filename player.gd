@@ -29,9 +29,11 @@ func _process(_delta: float) -> void:
 	var hold_time = holding_timer.wait_time
 	var hold_left = holding_timer.time_left
 	
-	if progress_bar:
-		progress_bar.value = hold_left - hold_time
-	elif progress_bar and holding_timer.is_stopped():
+	if progress_bar and hold_left > 0:
+		progress_bar.value = hold_time - hold_left
+	elif atkComponent.charge_ready and holding_timer.is_stopped():
+		progress_bar.value = 100
+	else:
 		progress_bar.value = 0
 	
 	if atkComponent.is_holding == true:
