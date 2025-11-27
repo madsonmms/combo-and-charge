@@ -12,7 +12,7 @@ func _ready() -> void:
 	
 	if progress_bar:
 		progress_bar.min_value = 0
-		progress_bar.max_value = atkComponent.hold_timer.wait_time
+		progress_bar.max_value = atkComponent.charge_time.wait_time
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_down"):
@@ -24,7 +24,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	
-	var holding_timer = atkComponent.hold_timer
+	var holding_timer = atkComponent.charge_time
 	
 	var hold_time = holding_timer.wait_time
 	var hold_left = holding_timer.time_left

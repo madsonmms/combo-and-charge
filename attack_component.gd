@@ -5,8 +5,7 @@ extends Node
 signal Combo_Finished
 
 @export var combo_timer : Timer
-@export var charge_timer : Timer
-@export var hold_timer: Timer
+@export var charge_time: Timer
 @export var has_combo : bool
 @export var circular_combo: bool
 @export var combo_steps : int # Se circular_combo = true, esse valor será = 2
@@ -20,7 +19,7 @@ var charge_ready : bool = false
 
 func _ready() -> void:
 	if has_charge:
-		hold_timer.timeout.connect(_on_hold_timeout)
+		charge_time.timeout.connect(_on_hold_timeout)
 	if has_combo:
 		combo_timer.timeout.connect(_on_combo_timeout)
 
@@ -30,25 +29,18 @@ func _process(_delta: float) -> void:
 # Chamado sempre que o ataque é realizado
 func attack_handler() -> void:
 	if has_charge:
-		if !is_holding and hold_timer.is_stopped():
+		if !is_holding and charge_time.is_stopped():
 			is_holding = true
-			hold_timer.start()
+			charge_time.start()
 		else:
 			charge_attack()
 	else:
 		normal_attack()
 
-#func release_attack() -> void:
-	#if has_charge:
-		#charge_attack()
-	#else:
-		#normal_attack()
-	
-
 func charge_attack() -> void:
 	
-	var hold_time = hold_timer.wait_time
-	var time_elapsed = hold_timer.wait_time - hold_timer.time_left
+	var hold_time = charge_time.wait_time
+	var time_elapsed = charge_time.wait_time - charge_time.time_left
 		
 	if is_holding:
 		if time_elapsed > 0 and time_elapsed < 1:
@@ -67,12 +59,12 @@ func normal_attack() -> void:
 		try_next_combo()
 
 func start_charge_attack() -> void:
-	hold_timer.stop()
+	charge_time.stop()
 	is_holding = false
 	charge_ready = false
 
 func cancel_charge_attack() -> void:
-	hold_timer.stop()
+	charge_time.stop()
 	is_holding = false
 	charge_ready = false
 
@@ -81,7 +73,7 @@ func start_attack() -> void:
 	attacking = true
 	
 	if has_charge:
-		hold_timer.stop()
+		charge_time.stop()
 		is_holding = false
 		charge_ready = false
 	
@@ -91,7 +83,7 @@ func start_attack() -> void:
 
 func try_next_combo() -> bool:
 	if has_charge:
-		hold_timer.stop()
+		charge_time.stop()
 	
 	#Checa se está atacando e se ainda tem timer
 	if attacking and not combo_timer.is_stopped(): 
@@ -104,13 +96,6 @@ func try_next_combo() -> bool:
 			else:
 				current_combo_step = 1
 		
-		#Controla os steps do combo
-		#if current_combo_step == 1: 
-			#current_combo_step += 1
-		#else:
-			#current_combo_step -= 1
-			
-		#controla o timer
 		combo_timer.start()
 
 		return true

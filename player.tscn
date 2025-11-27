@@ -11,11 +11,10 @@ script = ExtResource("1_i3pqv")
 position = Vector2(292, 298)
 texture = ExtResource("1_4flbx")
 
-[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("combo_timer", "charge_timer", "hold_timer")]
+[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("combo_timer", "charge_time")]
 script = ExtResource("2_onrkg")
 combo_timer = NodePath("ComboTimer")
-charge_timer = NodePath("ChargeTimer")
-hold_timer = NodePath("HoldTimer")
+charge_time = NodePath("ChargeTimer")
 has_combo = true
 circular_combo = true
 combo_steps = 3
@@ -25,8 +24,6 @@ metadata/_custom_type_script = "uid://crl0axr5v25aj"
 [node name="ComboTimer" type="Timer" parent="AttackComponent"]
 
 [node name="ChargeTimer" type="Timer" parent="AttackComponent"]
-
-[node name="HoldTimer" type="Timer" parent="AttackComponent"]
 wait_time = 3.0
 one_shot = true
 
