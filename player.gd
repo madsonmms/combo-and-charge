@@ -59,6 +59,8 @@ func _process(_delta: float) -> void:
 			status.text = "Charge PRONTO!"
 		else:
 			status.text = "Charging..."
+	elif atkComponent.charge_attack:
+		status.text = "CHARGE ATTACK!"
 	else:
 		status.text = "Idle"
 		attacking.text = "false"
