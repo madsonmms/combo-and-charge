@@ -17,7 +17,6 @@ combo = true
 combo_circular = true
 combo_steps = 3
 combo_timer = NodePath("ComboTimer")
-charge = true
 charge_timer = NodePath("ChargeTimer")
 metadata/_custom_type_script = "uid://crl0axr5v25aj"
 

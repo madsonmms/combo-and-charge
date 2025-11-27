@@ -4,12 +4,15 @@ extends Node
 #signal Next_Combo
 signal Combo_Finished
 
+@export_group("Combo System", "combo_")
+@export var combo : bool
+@export var combo_circular: bool
+@export var combo_steps : int # Se combo_circular = true, esse valor será = 2
 @export var combo_timer : Timer
-@export var charge_time: Timer
-@export var has_combo : bool
-@export var circular_combo: bool
-@export var combo_steps : int # Se circular_combo = true, esse valor será = 2
-@export var has_charge: bool
+
+@export_group("Charge System", "charge_")
+@export var charge: bool
+@export var charge_timer: Timer
 
 var current_combo_step : int = 0
 var attacking : bool = false
@@ -18,90 +21,91 @@ var is_charging : bool = false
 var charge_ready : bool = false
 
 func _ready() -> void:
-	if has_charge:
-		charge_time.timeout.connect(_on_hold_timeout)
-	if has_combo:
+	_setup_timers()
+
+func _setup_timers() -> void:
+	if charge:
+		charge_timer.timeout.connect(_on_hold_timeout)
+	if combo:
 		combo_timer.timeout.connect(_on_combo_timeout)
 
-func _process(_delta: float) -> void:
-	pass
-
-# Chamado sempre que o ataque é realizado
+#== ENTRADA ==#
 func attack_handler() -> void:
-	if has_charge:
-		if !is_holding and charge_time.is_stopped():
-			is_holding = true
-			charge_time.start()
-		else:
-			charge_attack()
+	if charge:
+		_try_start_charge()
 	else:
-		normal_attack()
+		_perform_normal_attack()
 
-func charge_attack() -> void:
+func release_handler() -> void:
+	if is_holding and !charge_ready:
+		_cancel_charge_attack()
+	if is_holding and charge_ready:
+		_charge_reseter()
+
+func _try_start_charge() -> void:
+	charge_timer.start()
+	is_holding = true
 	
-	var hold_time = charge_time.wait_time
-	var time_elapsed = charge_time.wait_time - charge_time.time_left
-		
-	if is_holding:
-		if time_elapsed > 0 and time_elapsed < 1:
-			is_holding = false
-			normal_attack()
-		elif time_elapsed == hold_time:
-			start_charge_attack()
-		else:
-			cancel_charge_attack()
-			pass
 
-func normal_attack() -> void:
+func _perform_normal_attack() -> void:
 	if current_combo_step == 0:
 		start_attack()
-	elif current_combo_step != 0 and has_combo:
+	elif combo and current_combo_step != 0:
 		try_next_combo()
-
-func start_charge_attack() -> void:
-	charge_time.stop()
-	is_holding = false
-	charge_ready = false
-
-func cancel_charge_attack() -> void:
-	charge_time.stop()
-	is_holding = false
-	charge_ready = false
-
+		
 #Inicializa o ataque e o timer
 func start_attack() -> void:
 	attacking = true
 	
-	if has_charge:
-		charge_time.stop()
+	if charge:
+		charge_timer.stop()
 		is_holding = false
 		charge_ready = false
 	
-	if has_combo:
-		current_combo_step += 1
+	if combo:
+		current_combo_step = 1
 		combo_timer.start()
 
 func try_next_combo() -> bool:
-	if has_charge:
-		charge_time.stop()
+	print_debug("antes do combo:", current_combo_step)
+	if charge:
+		charge_timer.stop()
 	
 	#Checa se está atacando e se ainda tem timer
-	if attacking and not combo_timer.is_stopped(): 
+	if attacking and combo_timer.time_left > 0: 
 		
-		if circular_combo:
-			_circular_combo()
+		if combo_circular:
+			_combo_circular()
 		else:
-			if current_combo_step != combo_steps:
+			if current_combo_step < combo_steps:
 				current_combo_step += 1
 			else:
 				current_combo_step = 1
 		
 		combo_timer.start()
-
+		print_debug("depois do combo:", current_combo_step)
 		return true
 	return false
+	
 
-func _circular_combo() -> void:
+func _charge_reseter() -> void:
+	charge_timer.stop()
+	is_holding = false
+	charge_ready = false
+
+func _cancel_charge_attack() -> void:
+	
+	var time_elapsed = charge_timer.wait_time - charge_timer.time_left
+	
+	if time_elapsed > 0 and time_elapsed < 1:
+		_charge_reseter()
+		_perform_normal_attack()
+	else:
+		_charge_reseter()
+	
+
+
+func _combo_circular() -> void:
 	combo_steps = 2
 	
 	if current_combo_step == combo_steps:
