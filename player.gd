@@ -14,6 +14,7 @@ func _ready() -> void:
 		progress_bar.min_value = 0
 		progress_bar.max_value = atkComponent.charge_timer.wait_time
 
+#Input
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_down"):
 		atkComponent.attack_handler()
