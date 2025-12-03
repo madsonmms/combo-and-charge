@@ -31,6 +31,7 @@ func _ready() -> void:
 	
 	_setup_timers()
 
+# Timers signal connection
 func _setup_timers() -> void:
 	if charge:
 		charge_timer.timeout.connect(_on_hold_timeout)
