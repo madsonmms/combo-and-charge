@@ -37,6 +37,9 @@ func _setup_timers() -> void:
 		charge_timer.timeout.connect(_on_hold_timeout)
 	if combo:
 		combo_cooldown.timeout.connect(_on_combo_timeout)
+	
+	if not combo:
+		attack_cooldown.timeout.connect(_on_attack_reset_timeout)
 
 func _process(_delta: float) -> void:
 	
@@ -129,6 +132,9 @@ func _cancel_charge_attack() -> void:
 		_charge_reseter()
 	
 
+func _on_attack_reset_timeout() -> void:
+	if attack_cooldown.is_stopped():
+		attacking = false
 
 func _combo_circular() -> void:
 	combo_steps = 2

@@ -14,11 +14,8 @@ texture = ExtResource("1_4flbx")
 [node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("attack_cooldown", "combo_cooldown", "charge_timer")]
 script = ExtResource("2_onrkg")
 attack_cooldown = NodePath("AttackCooldown")
-combo = true
-combo_circular = true
-combo_steps = 4
+combo_steps = 1
 combo_cooldown = NodePath("ComboCooldown")
-charge = true
 charge_start_time = 1.0
 charge_timer = NodePath("ChargeTimer")
 metadata/_custom_type_script = "uid://crl0axr5v25aj"
