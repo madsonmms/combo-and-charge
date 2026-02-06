@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwbb84yxhjg8s"]
+
+[ext_resource type="Script" uid="uid://diq1t42e4eu6r" path="res://combo_component.gd" id="1_fabto"]
+
+[node name="ComboComponent" type="Node"]
+script = ExtResource("1_fabto")
+combo_cooldown_time = 0.3
+
+[node name="ComboCooldown" type="Timer" parent="."]

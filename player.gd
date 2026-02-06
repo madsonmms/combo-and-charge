@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var atkComponent : AttackComponent = $AttackComponent
+@onready var atkComponent : AttackModule = $AttackModule
 @onready var status : Label = $Status
 @onready var attacking : Label = $Attacking
 @onready var holding : Label = $Holding
@@ -8,7 +8,7 @@ extends Node2D
 @onready var progress_bar : ProgressBar = $ProgressBar
 
 func _ready() -> void:
-	atkComponent.Combo_Finished.connect(_on_attack_finished)
+	atkComponent.combo_component.Combo_Finished.connect(_on_attack_finished)
 	
 	if progress_bar:
 		progress_bar.min_value = 0
@@ -50,8 +50,8 @@ func _process(_delta: float) -> void:
 	if atkComponent.attacking == true:
 		attacking.text = "true"
 		
-		if atkComponent.current_combo_step != 0:
-			status.text = "Combo " + str(atkComponent.current_combo_step)
+		if atkComponent.combo_component.current_step != 0:
+			status.text = "Combo " + str(atkComponent.combo_component.current_step)
 		else:
 			status.text = "Idle"
 		

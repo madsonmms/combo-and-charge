@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dsslgse0hgogr"]
+[gd_scene load_steps=6 format=3 uid="uid://dsslgse0hgogr"]
 
 [ext_resource type="Texture2D" uid="uid://cmaglv0ge2qh" path="res://icon.svg" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dhi8cnxxkpora" path="res://player.gd" id="1_i3pqv"]
-[ext_resource type="Script" uid="uid://crl0axr5v25aj" path="res://attack_component.gd" id="2_onrkg"]
+[ext_resource type="Script" uid="uid://crl0axr5v25aj" path="res://attack_module.gd" id="2_onrkg"]
+[ext_resource type="PackedScene" uid="uid://dtfqjsejdsfk1" path="res://attack_component.tscn" id="4_hqtel"]
+[ext_resource type="PackedScene" uid="uid://cwbb84yxhjg8s" path="res://combo_component.tscn" id="5_sweqy"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_i3pqv")
@@ -11,25 +13,35 @@ script = ExtResource("1_i3pqv")
 position = Vector2(292, 298)
 texture = ExtResource("1_4flbx")
 
-[node name="AttackComponent" type="Node" parent="." node_paths=PackedStringArray("attack_cooldown", "combo_cooldown", "charge_timer")]
+[node name="AttackModule" type="Node" parent="." node_paths=PackedStringArray("attack_cooldown", "attack_component", "combo_component", "charge_timer")]
 script = ExtResource("2_onrkg")
-attack_cooldown = NodePath("AttackCooldown")
-combo_steps = 1
-combo_cooldown = NodePath("ComboCooldown")
+attack_cooldown = NodePath("AttackComponent2D/AttackCooldown")
+attack_component = NodePath("AttackComponent2D")
+combo_component = NodePath("ComboComponent2D")
+combo_steps = 3
 charge = true
 charge_start_time = 1.0
-charge_timer = NodePath("ChargeTimer")
+charge_timer = NodePath("ChargeComponent2D/ChargeTimer")
 metadata/_custom_type_script = "uid://crl0axr5v25aj"
 
-[node name="ComboCooldown" type="Timer" parent="AttackComponent"]
+[node name="AttackComponent2D" parent="AttackModule" instance=ExtResource("4_hqtel")]
+attack_duration = 0.2
+attack_cooldown_time = 0.2
 
-[node name="ChargeTimer" type="Timer" parent="AttackComponent"]
+[node name="AttackCooldown" type="Timer" parent="AttackModule/AttackComponent2D"]
+wait_time = 0.5
+one_shot = true
+
+[node name="ChargeComponent2D" type="Node2D" parent="AttackModule"]
+
+[node name="ChargeTimer" type="Timer" parent="AttackModule/ChargeComponent2D"]
 wait_time = 3.0
 one_shot = true
 
-[node name="AttackCooldown" type="Timer" parent="AttackComponent"]
-wait_time = 0.5
-one_shot = true
+[node name="ComboComponent2D" parent="AttackModule" instance=ExtResource("5_sweqy")]
+component_active = true
+combo_steps = 3
+combo_cooldown_time = 1.0
 
 [node name="Status" type="Label" parent="."]
 offset_left = 336.0
